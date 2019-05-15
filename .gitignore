@@ -1,0 +1,5 @@
+###> ignore specific filetypes ###
+*.key
+*.swp
+*.DS_Store
+###< ignore specific filetypes ###
