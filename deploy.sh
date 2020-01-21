@@ -145,15 +145,16 @@ if [[ $task == 'install' ]] || [[ $task == 'all' ]]; then
 
     # Generate composer dependencies for this (prod) environment
     composer require symfony/dotenv
-
+    
     # Install/update vendors
     export APP_ENV=prod
-    composer install --no-dev --optimize-autoloader
+    COMPOSER_MEMORY_LIMIT=-1 composer clearcache
+    COMPOSER_MEMORY_LIMIT=-1 composer install --no-dev --optimize-autoloader
 
     # Install bundles
     php bin/console assets:install
  
-   if [ ! -d "${public_dir}/bundles" ]; then
+    if [ ! -d "${public_dir}/bundles" ]; then
         echo "Error: assets folder not found. Could not run bin/console assets:install."
         exit 1;
     fi
@@ -166,7 +167,7 @@ if [[ $task == 'install' ]] || [[ $task == 'all' ]]; then
     # Overwrite @ public_html/bundles
     ##
     # Fix fosckeditor config for fontawesome
-    cp ${public_dir}/assets/js/ckeditor_config.js ${public_dir}/bundles/fosckeditor/config.js
+    cp ${public_dir}/assets/fosckeditor/config.js ${public_dir}/bundles/fosckeditor/config.js
 
 fi
 
